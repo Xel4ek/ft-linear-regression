@@ -344,7 +344,6 @@ export class FtLinearRegressionTrainComponent {
 
   async train(): Promise<void> {
     let diff = 1;
-    this.counter = 0;
     const eps = this.learningRate * this.learningRate * 1e-10;
     for (; Math.abs(diff) > eps; ++this.counter) {
       const theta0 =
