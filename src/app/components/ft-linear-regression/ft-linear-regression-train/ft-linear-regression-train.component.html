@@ -1,0 +1,56 @@
+<div
+  *ngIf="data.origin.length"
+  echarts
+  [options]="options"
+  [merge]="mergeOptions"
+  class="chart"
+></div>
+<div *ngIf="error" class="error">{{ error }}</div>
+
+<div class="info">
+  <label>
+    Enter Mileage:
+    <input
+      class="input"
+      type="number"
+      (keyup)="updateMileage(inputElement.value)"
+      #inputElement
+    />
+  </label>
+  <div *ngIf="inputElement.value" class="estimate-price">
+    Estimate Price: <span class="calc">{{ estimatePrice(mileage) }}</span>
+  </div>
+  <div class="thetas">
+    <div class="theta">
+      [<span class="pretty">θ<sub>0</sub></span
+      >: <span class="calc"> {{ theta[0] }}</span
+      >,
+    </div>
+    <div class="theta">
+      <span class="pretty">θ<sub>1</sub></span
+      >: <span class="calc">{{ theta[1] }}</span
+      >]
+    </div>
+  </div>
+</div>
+<div class="info" *ngIf="data.origin.length">
+  <div (click)="train()" class="btn">Train</div>
+  <input
+    id="range"
+    type="range"
+    max="1"
+    min=".0001"
+    step=".0001"
+    class="range"
+    [value]="learningRate"
+    #rangeValue
+    (change)="learningRate = +rangeValue.value"
+  />
+  <label for="range">
+    {{ learningRate }}
+  </label>
+  <div class="iterations">
+    Iterations: <span class="calc">{{ counter }}</span>
+  </div>
+  <div (click)="reset()" class="btn">Reset</div>
+</div>

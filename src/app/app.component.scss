@@ -1,0 +1,45 @@
+:host {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  .container {
+    max-width: 1240px;
+    margin: auto;
+  }
+  .wrapper {
+    flex: 1 1 auto;
+  }
+  .header {
+    padding: 0 0 0.7rem;
+    background-image: linear-gradient(
+      rgba(75, 5, 141, 0.7),
+      rgba(75, 5, 141, 0.1)
+    );
+    font-size: 3.5rem;
+    font-weight: 500;
+    font-style: italic;
+    text-align: center;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+    .gradient {
+      background: linear-gradient(
+        177deg,
+        #a20d0d,
+        #ba1313 44%,
+        #06085f 57%,
+        #465fcd
+      );
+      padding-bottom: 0.4rem;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  }
+  .footer {
+    padding: 0.3rem 1ch;
+    text-align: right;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.8rem;
+    font-weight: 300;
+    font-style: italic;
+    background-color: rgba(41, 4, 79, 0.3);
+  }
+}

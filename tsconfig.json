@@ -2,7 +2,15 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
+    "baseUrl": "./src",
+    "paths": {
+      "@components/*": ["app/components/*"],
+      "@store/*": ["app/store/*"],
+      "@services/*": ["app/services/*"],
+      "@interfaces/*": ["app/interfaces/*"],
+      "@styles/*": ["app/styles/*"],
+      "@modules/*": ["app/modules/*"],
+    },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
