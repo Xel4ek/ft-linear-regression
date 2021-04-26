@@ -50,6 +50,7 @@ export class FtLinearRegressionTrainComponent {
     this.active = false;
     this.theta = [0, 0];
     this.normalizeTheta = [0, 0];
+    this.counter = 0;
     event.preventDefault();
     const file = event.dataTransfer?.files[0];
     if (file) {
