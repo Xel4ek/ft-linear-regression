@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-ft-linear-regression-train',
@@ -15,17 +15,23 @@ export class FtLinearRegressionTrainComponent {
     normalize: [],
   };
   normalizeTheta: [number, number] = [0, 0];
-  theta: [number, number] = [0, 0]; //  [9000, -0.03]
+  theta: [number, number] = [0, 0];
   learningRate = 0.5;
   mileage?: string;
   mergeOptions = {};
   options = {};
-  private exactBounds: number[] = new Array<number>(4);
   bounds = {
     xAxis: { min: Infinity, max: -Infinity },
     yAxis: { min: Infinity, max: -Infinity },
   };
+  private exactBounds: number[] = new Array<number>(4);
+
   constructor() {}
+
+  private static round(x: number, lower = false): number {
+    const base = 10 ** Math.trunc(Math.log10(x));
+    return (Math.trunc(x / base) + (lower ? 0 : 1)) * base;
+  }
 
   @HostListener('body: dragleave')
   onBodyDragLeave(): void {
@@ -81,8 +87,12 @@ export class FtLinearRegressionTrainComponent {
             (x - xMin) / (xMax - xMin),
             (y - yMin) / (yMax - yMin),
           ]);
-          [xMin, yMin] = [xMin, yMin].map((el) => this.round(el, true));
-          [xMax, yMax] = [xMax, yMax].map((el) => this.round(el));
+          [xMin, yMin] = [xMin, yMin].map((el) =>
+            FtLinearRegressionTrainComponent.round(el, true)
+          );
+          [xMax, yMax] = [xMax, yMax].map((el) =>
+            FtLinearRegressionTrainComponent.round(el)
+          );
           // console.log([xMin, yMin, xMax, yMax]);
           this.bounds = {
             xAxis: { min: xMin, max: xMax },
@@ -104,6 +114,7 @@ export class FtLinearRegressionTrainComponent {
     this.mileage = mileage;
     this.mergeOptions = this.optionsSupplier();
   }
+
   optionsSupplier(): any {
     return {
       title: {
@@ -330,20 +341,7 @@ export class FtLinearRegressionTrainComponent {
       ],
     };
   }
-  private getR(): string {
-    return (
-      (
-        (1 -
-          this.data.normalize.reduce((acc, cur) => {
-            return acc + (cur[1] - this.normalizeEstimatePrice(cur[0])) ** 2;
-          }, 0) /
-            this.data.normalize.length) *
-        100
-      )
-        .toString()
-        .substring(0, 4) + '%'
-    );
-  }
+
   async train(): Promise<void> {
     let diff = 1;
     this.counter = 0;
@@ -379,24 +377,38 @@ export class FtLinearRegressionTrainComponent {
       }
     }
   }
+
   reset(): void {
     this.theta = [0, 0];
     this.normalizeTheta = [0, 0];
     this.counter = 0;
     this.mergeOptions = this.optionsSupplier();
   }
-  private round(x: number, lower = false): number {
-    const base = 10 ** Math.trunc(Math.log10(x));
-    return (Math.trunc(x / base) + (lower ? 0 : 1)) * base;
-  }
+
   estimatePrice(mileage: string | number = 0): number {
     const mileageValue =
       typeof mileage === 'string' ? parseFloat(mileage) : mileage;
     return this.theta[0] + this.theta[1] * mileageValue;
   }
+
   normalizeEstimatePrice(mileage: string | number = 0): number {
     const mileageValue =
       typeof mileage === 'string' ? parseFloat(mileage) : mileage;
     return this.normalizeTheta[0] + this.normalizeTheta[1] * mileageValue;
+  }
+
+  private getR(): string {
+    return (
+      (
+        (1 -
+          this.data.normalize.reduce((acc, cur) => {
+            return acc + (cur[1] - this.normalizeEstimatePrice(cur[0])) ** 2;
+          }, 0) /
+            this.data.normalize.length) *
+        100
+      )
+        .toString()
+        .substring(0, 4) + '%'
+    );
   }
 }

@@ -21,7 +21,11 @@
   .info {
     display: flex;
     gap: 2rem;
-    padding: 1rem 0 2rem 2rem;
+    padding: 1rem 2rem 2rem;
+    align-items: center;
+    .demo {
+      margin-left: auto;
+    }
     input[type="range"] {
       width: 200px;
       margin: 5.85px 0;
@@ -130,6 +134,10 @@
       border-bottom: 1px solid purple;
       color: #540254;
       font-size: inherit;
+    }
+
+    a {
+      color: white;
     }
     .calc {
       color: #540254;
